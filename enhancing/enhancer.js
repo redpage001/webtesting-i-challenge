@@ -6,15 +6,15 @@ module.exports = {
 };
 
 function succeed(item) {
-  if(item && item.name && item.durability && item.enhancement){
+  if(item && item.name && typeof item.durability === 'number' && typeof item.enhancement === 'number'){
     const { enhancement } = item;
 
     if(enhancement < 20 && enhancement > -1) {
       return {...item, enhancement: enhancement + 1};
     } else if (enhancement === 20) {
-      return { message: "Item cannot be enhanced any further." }
+      return { message: "Item cannot be enhanced any further." };
     } else {
-      return { message: "Nice hacked weapon, cheater." }
+      return { message: "Nice hacked weapon, cheater." };
     }
   } else {
     return null;
@@ -22,7 +22,7 @@ function succeed(item) {
 }
 
 function fail(item) {
-  if(item && item.name && item.durability && item.enhancement){
+  if(item && item.name && typeof item.durability === 'number' && typeof item.enhancement === 'number'){
     const { enhancement } = item;
 
     if(enhancement > 16 && enhancement < 20) {
@@ -34,9 +34,9 @@ function fail(item) {
     } else if (enhancement > -1 && enhancement < 5) {
       return { ...item, enhancement: 0};
     } else if (enhancement === 20) {
-      return { message: "Item cannot be enhanced any further." }
+      return { message: "Item cannot be enhanced any further." };
     } else {
-      return { message: "Nice hacked weapon, cheater." }
+      return { message: "Nice hacked weapon, cheater." };
     }
   } else {
     return null;
@@ -44,14 +44,15 @@ function fail(item) {
 }
 
 function repair(item) {
-  if(item && item.name && item.durability && item.enhancement){
+  if(item && item.name && typeof item.durability === 'number' && typeof item.enhancement === 'number'){
     const { durability } = item;
+
     if(durability < 100 && durability > -1) {
       return { ...item, durability: 100 };
     } else if(durability === 100) {
-      return { message: "Item is in perfect condition." }
+      return { message: "Item is in perfect condition." };
     } else {
-      return { message: "Nice hacked weapon, cheater." }
+      return { message: "Nice hacked weapon, cheater." };
     }
   } else {
     return null;
@@ -59,5 +60,17 @@ function repair(item) {
 }
 
 function get(item) {
-  return { ...item };
+  if(item && item.name && typeof item.durability === 'number' && typeof item.enhancement === 'number'){
+    const { name, enhancement } = item;
+
+    if(enhancement < 21 && enhancement > 0) {
+      return { ...item, name: `${name} [+${enhancement}]` };
+    } else if (enhancement === 0) {
+      return item;
+    } else {
+      return { message: "Nice hacked weapon, cheater." };
+    }
+  } else {
+    return null;
+  }
 }
